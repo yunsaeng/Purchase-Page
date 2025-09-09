@@ -20,9 +20,9 @@ export default function HomePage() {
   } = useCart();
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <main className="container mx-auto px-4">
-        <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-8">
+    <div className="min-h-screen bg-gray-100 py-4 sm:py-8">
+      <main className="container mx-auto px-2 sm:px-4">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-center text-gray-900 mb-4 sm:mb-8">
           상품 구매 페이지
         </h1>
 
