@@ -45,19 +45,19 @@
 ### 🎯 싱글톤 프롬프트
 
 ```
-상품 구매 페이지 모듈화 설계
+상품 구매 페이지 모듈화 설계 (완전판)
 
 Next.js App Router, TypeScript, Tailwind CSS를 사용하여 상품 구매 페이지를 구현하세요.
 
 핵심 요구사항
-1. **즉시 표시**: 페이지 로드 시 로딩 없이 바로 상품 목록 표시
-2. **상품 선택**: 개별 체크박스 및 전체 선택 기능
-3. **수량 조절**: +/- 버튼으로 수량 변경 (최소 1개)
-4. **상품 삭제**: 각 상품마다 삭제 버튼 (×) 제공
-5. **실시간 계산**: 상품 금액, 배송비, 총 결제금액 자동 계산
-6. **배송비 로직**: 5만원 미만 시 3천원, 이상 시 무료
-7. **상태 유지**: localStorage를 통한 장바구니 상태 저장
-8. **Hydration 안정성**: SSR/CSR 불일치 문제 완전 해결
+1. 즉시 표시: 페이지 로드 시 로딩 없이 바로 상품 목록 표시
+2. 상품 선택: 개별 체크박스 및 전체 선택 기능
+3. 수량 조절: +/- 버튼으로 수량 변경 (최소 1개)
+4. 상품 삭제: 각 상품마다 삭제 버튼 (×) 제공
+5. 실시간 계산: 상품 금액, 배송비, 총 결제금액 자동 계산
+6. 배송비 로직: 5만원 미만 시 3천원, 이상 시 무료
+7. 상태 유지: localStorage를 통한 장바구니 상태 저장
+8. Hydration 안정성: SSR/CSR 불일치 문제 완전 해결
 
 기술적 제약사항
 - Next.js App Router 사용
@@ -76,17 +76,50 @@ src/
 │   └── CartSummary.tsx       # 장바구니 요약 컴포넌트
 └── app/page.tsx              # 메인 페이지
 
+정확한 타입 정의
+// src/types/product.ts
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+초기 더미 데이터
+const DUMMY_PRODUCTS: Product[] = [
+  { id: 'p1', name: '상품 1', price: 10000, quantity: 1, image: '/images/product1.svg' },
+  { id: 'p2', name: '상품 2', price: 20000, quantity: 1, image: '/images/product2.svg' },
+  { id: 'p3', name: '상품 3', price: 5000, quantity: 1, image: '/images/product3.svg' },
+];
+
 핵심 구현 포인트
-1. Hydration 문제 해결: 하드코딩된 더미 데이터로 초기값 설정
-2. 모듈화 설계: Presentational 컴포넌트와 Business Logic 훅 분리
-3. 타입 안전성: 모든 Props와 함수에 정확한 타입 정의
-4. 상태 관리: useState, useEffect, useMemo, useCallback 활용
-5. 에러 방지: SSR 환경 체크 및 안전한 상태 전달
+1. Hydration 문제 해결: 
+   - useState 초기값을 하드코딩된 더미 데이터로 설정
+   - selectedProductIds를 new Set(['p1', 'p2', 'p3'])로 초기화
+   - useEffect에서 localStorage 데이터를 클라이언트에서만 로드
+
+2. 모듈화 설계: 
+   - Presentational 컴포넌트: UI만 담당
+   - Business Logic 훅: 상태 관리 및 비즈니스 로직
+
+3. 타입 안전성: 
+   - 모든 Props와 함수에 정확한 타입 정의
+   - selectedCount를 useMemo로 계산하여 props로 전달
+
+4. 상태 관리: 
+   - useState, useEffect, useMemo, useCallback 활용
+   - localStorage 동기화
+
+5. 에러 방지: 
+   - typeof window === 'undefined' 체크
+   - SSR 환경에서 안전한 상태 전달
 
 예상 결과
 - 모든 상품이 기본적으로 선택된 상태로 시작
 - 수량 조절 시 실시간 가격 업데이트
 - 삭제 시 선택 상태에서도 자동 제거
-- 배송비 로직 정확한 적용
+- 배송비 로직 정확한 적용 (5만원 미만 시 3천원)
 - Hydration 에러 완전 해결
+- localStorage 상태 유지
 ```
