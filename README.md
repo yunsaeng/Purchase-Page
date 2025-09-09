@@ -45,7 +45,7 @@
 ### 🎯 싱글톤 프롬프트
 
 ```
-상품 구매 페이지 모듈화 설계 (완전판)
+상품 구매 페이지 모듈화 설계
 
 Next.js App Router, TypeScript, Tailwind CSS를 사용하여 상품 구매 페이지를 구현하세요.
 
